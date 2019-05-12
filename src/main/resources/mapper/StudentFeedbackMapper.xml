@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.StudentFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.StudentFeedback" >
+    <id column="feedback_id" property="feedbackId" jdbcType="INTEGER" />
+    <result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR" />
+    <result column="feedback_create_time" property="feedbackCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sno" property="sno" jdbcType="CHAR" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+    <result column="adm_answer" property="admAnswer" jdbcType="VARCHAR" />
+    <result column="ano" property="ano" jdbcType="CHAR" />
+    <result column="adm_name" property="admName" jdbcType="VARCHAR" />
+    <result column="feedback_status" property="feedbackStatus" jdbcType="CHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    feedback_id, feedback_content, feedback_create_time, sno, stu_name, adm_answer, ano, 
+    adm_name, feedback_status, reply_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.StudentFeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student_feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student_feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.StudentFeedbackExample" >
+    delete from student_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.StudentFeedback" >
+    insert into student_feedback (feedback_id, feedback_content, feedback_create_time, 
+      sno, stu_name, adm_answer, 
+      ano, adm_name, feedback_status, 
+      reply_time)
+    values (#{feedbackId,jdbcType=INTEGER}, #{feedbackContent,jdbcType=VARCHAR}, #{feedbackCreateTime,jdbcType=TIMESTAMP}, 
+      #{sno,jdbcType=CHAR}, #{stuName,jdbcType=VARCHAR}, #{admAnswer,jdbcType=VARCHAR}, 
+      #{ano,jdbcType=CHAR}, #{admName,jdbcType=VARCHAR}, #{feedbackStatus,jdbcType=CHAR}, 
+      #{replyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.StudentFeedback" >
+    insert into student_feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="feedbackId != null" >
+        feedback_id,
+      </if>
+      <if test="feedbackContent != null" >
+        feedback_content,
+      </if>
+      <if test="feedbackCreateTime != null" >
+        feedback_create_time,
+      </if>
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="admAnswer != null" >
+        adm_answer,
+      </if>
+      <if test="ano != null" >
+        ano,
+      </if>
+      <if test="admName != null" >
+        adm_name,
+      </if>
+      <if test="feedbackStatus != null" >
+        feedback_status,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="feedbackId != null" >
+        #{feedbackId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackContent != null" >
+        #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackCreateTime != null" >
+        #{feedbackCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sno != null" >
+        #{sno,jdbcType=CHAR},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="admAnswer != null" >
+        #{admAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="ano != null" >
+        #{ano,jdbcType=CHAR},
+      </if>
+      <if test="admName != null" >
+        #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackStatus != null" >
+        #{feedbackStatus,jdbcType=CHAR},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.StudentFeedbackExample" resultType="java.lang.Integer" >
+    select count(*) from student_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update student_feedback
+    <set >
+      <if test="record.feedbackId != null" >
+        feedback_id = #{record.feedbackId,jdbcType=INTEGER},
+      </if>
+      <if test="record.feedbackContent != null" >
+        feedback_content = #{record.feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackCreateTime != null" >
+        feedback_create_time = #{record.feedbackCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sno != null" >
+        sno = #{record.sno,jdbcType=CHAR},
+      </if>
+      <if test="record.stuName != null" >
+        stu_name = #{record.stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admAnswer != null" >
+        adm_answer = #{record.admAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ano != null" >
+        ano = #{record.ano,jdbcType=CHAR},
+      </if>
+      <if test="record.admName != null" >
+        adm_name = #{record.admName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackStatus != null" >
+        feedback_status = #{record.feedbackStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.replyTime != null" >
+        reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update student_feedback
+    set feedback_id = #{record.feedbackId,jdbcType=INTEGER},
+      feedback_content = #{record.feedbackContent,jdbcType=VARCHAR},
+      feedback_create_time = #{record.feedbackCreateTime,jdbcType=TIMESTAMP},
+      sno = #{record.sno,jdbcType=CHAR},
+      stu_name = #{record.stuName,jdbcType=VARCHAR},
+      adm_answer = #{record.admAnswer,jdbcType=VARCHAR},
+      ano = #{record.ano,jdbcType=CHAR},
+      adm_name = #{record.admName,jdbcType=VARCHAR},
+      feedback_status = #{record.feedbackStatus,jdbcType=CHAR},
+      reply_time = #{record.replyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.StudentFeedback" >
+    update student_feedback
+    <set >
+      <if test="feedbackContent != null" >
+        feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackCreateTime != null" >
+        feedback_create_time = #{feedbackCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sno != null" >
+        sno = #{sno,jdbcType=CHAR},
+      </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="admAnswer != null" >
+        adm_answer = #{admAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="ano != null" >
+        ano = #{ano,jdbcType=CHAR},
+      </if>
+      <if test="admName != null" >
+        adm_name = #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackStatus != null" >
+        feedback_status = #{feedbackStatus,jdbcType=CHAR},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.StudentFeedback" >
+    update student_feedback
+    set feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+      feedback_create_time = #{feedbackCreateTime,jdbcType=TIMESTAMP},
+      sno = #{sno,jdbcType=CHAR},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      adm_answer = #{admAnswer,jdbcType=VARCHAR},
+      ano = #{ano,jdbcType=CHAR},
+      adm_name = #{admName,jdbcType=VARCHAR},
+      feedback_status = #{feedbackStatus,jdbcType=CHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP}
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.BankFillQueMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.BankFillQue" >
+    <id column="fill_id" property="fillId" jdbcType="INTEGER" />
+    <result column="fill_content" property="fillContent" jdbcType="VARCHAR" />
+    <result column="fill_answer" property="fillAnswer" jdbcType="VARCHAR" />
+    <result column="compose_flag" property="composeFlag" jdbcType="VARCHAR" />
+    <result column="answer_explain" property="answerExplain" jdbcType="VARCHAR" />
+    <result column="lang_id" property="langId" jdbcType="INTEGER" />
+
+    <association property="paperQue" javaType="com.mwt.oes.domain.PaperQue">
+      <id column="que_id" property="queId" jdbcType="INTEGER" />
+      <result column="que_type" property="queType" jdbcType="INTEGER"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fill_id, fill_content, fill_answer, compose_flag, answer_explain, lang_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.BankFillQueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bank_fill_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bank_fill_que
+    where fill_id = #{fillId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getFillQueListByPaperId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT q.que_id,q.que_type,f.fill_id,f.fill_content,f.fill_answer,f.compose_flag,f.answer_explain,f.lang_id
+    FROM paper_que q,bank_fill_que f
+    WHERE paper_id=#{paperId,jdbcType=INTEGER} AND q.fill_id=f.fill_id
+  </select>
+
+  <select id="getRandomFillByCountAndLangId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT * FROM bank_fill_que WHERE lang_id=#{langId,jdbcType=INTEGER} ORDER BY RAND() LIMIT #{fillNum,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bank_fill_que
+    where fill_id = #{fillId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.BankFillQueExample" >
+    delete from bank_fill_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.BankFillQue" >
+    insert into bank_fill_que (fill_id, fill_content, fill_answer, 
+      compose_flag, answer_explain, lang_id
+      )
+    values (#{fillId,jdbcType=INTEGER}, #{fillContent,jdbcType=VARCHAR}, #{fillAnswer,jdbcType=VARCHAR}, 
+      #{composeFlag,jdbcType=VARCHAR}, #{answerExplain,jdbcType=VARCHAR}, #{langId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.BankFillQue" >
+    insert into bank_fill_que
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fillId != null" >
+        fill_id,
+      </if>
+      <if test="fillContent != null" >
+        fill_content,
+      </if>
+      <if test="fillAnswer != null" >
+        fill_answer,
+      </if>
+      <if test="composeFlag != null" >
+        compose_flag,
+      </if>
+      <if test="answerExplain != null" >
+        answer_explain,
+      </if>
+      <if test="langId != null" >
+        lang_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fillId != null" >
+        #{fillId,jdbcType=INTEGER},
+      </if>
+      <if test="fillContent != null" >
+        #{fillContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fillAnswer != null" >
+        #{fillAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="composeFlag != null" >
+        #{composeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="answerExplain != null" >
+        #{answerExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="langId != null" >
+        #{langId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.BankFillQueExample" resultType="java.lang.Integer" >
+    select count(*) from bank_fill_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bank_fill_que
+    <set >
+      <if test="record.fillId != null" >
+        fill_id = #{record.fillId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fillContent != null" >
+        fill_content = #{record.fillContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fillAnswer != null" >
+        fill_answer = #{record.fillAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.composeFlag != null" >
+        compose_flag = #{record.composeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerExplain != null" >
+        answer_explain = #{record.answerExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.langId != null" >
+        lang_id = #{record.langId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bank_fill_que
+    set fill_id = #{record.fillId,jdbcType=INTEGER},
+      fill_content = #{record.fillContent,jdbcType=VARCHAR},
+      fill_answer = #{record.fillAnswer,jdbcType=VARCHAR},
+      compose_flag = #{record.composeFlag,jdbcType=VARCHAR},
+      answer_explain = #{record.answerExplain,jdbcType=VARCHAR},
+      lang_id = #{record.langId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.BankFillQue" >
+    update bank_fill_que
+    <set >
+      <if test="fillContent != null" >
+        fill_content = #{fillContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fillAnswer != null" >
+        fill_answer = #{fillAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="composeFlag != null" >
+        compose_flag = #{composeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="answerExplain != null" >
+        answer_explain = #{answerExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="langId != null" >
+        lang_id = #{langId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where fill_id = #{fillId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.BankFillQue" >
+    update bank_fill_que
+    set fill_content = #{fillContent,jdbcType=VARCHAR},
+      fill_answer = #{fillAnswer,jdbcType=VARCHAR},
+      compose_flag = #{composeFlag,jdbcType=VARCHAR},
+      answer_explain = #{answerExplain,jdbcType=VARCHAR},
+      lang_id = #{langId,jdbcType=INTEGER}
+    where fill_id = #{fillId,jdbcType=INTEGER}
+  </update>
+</mapper>

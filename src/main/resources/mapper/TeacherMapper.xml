@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.TeacherMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.Teacher" >
+    <id column="tno" property="tno" jdbcType="CHAR" />
+    <result column="tea_psw" property="teaPsw" jdbcType="VARCHAR" />
+    <result column="tea_name" property="teaName" jdbcType="VARCHAR" />
+    <result column="tea_sex" property="teaSex" jdbcType="VARCHAR" />
+    <result column="tea_email" property="teaEmail" jdbcType="VARCHAR" />
+    <result column="tea_phone" property="teaPhone" jdbcType="CHAR" />
+    <result column="tea_last_login_time" property="teaLastLoginTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tno, tea_psw, tea_name, tea_sex, tea_email, tea_phone, tea_last_login_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.TeacherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where tno = #{tno,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from teacher
+    where tno = #{tno,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.TeacherExample" >
+    delete from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.Teacher" >
+    insert into teacher (tno, tea_psw, tea_name, 
+      tea_sex, tea_email, tea_phone, 
+      tea_last_login_time)
+    values (#{tno,jdbcType=CHAR}, #{teaPsw,jdbcType=VARCHAR}, #{teaName,jdbcType=VARCHAR}, 
+      #{teaSex,jdbcType=VARCHAR}, #{teaEmail,jdbcType=VARCHAR}, #{teaPhone,jdbcType=CHAR}, 
+      #{teaLastLoginTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.Teacher" >
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tno != null" >
+        tno,
+      </if>
+      <if test="teaPsw != null" >
+        tea_psw,
+      </if>
+      <if test="teaName != null" >
+        tea_name,
+      </if>
+      <if test="teaSex != null" >
+        tea_sex,
+      </if>
+      <if test="teaEmail != null" >
+        tea_email,
+      </if>
+      <if test="teaPhone != null" >
+        tea_phone,
+      </if>
+      <if test="teaLastLoginTime != null" >
+        tea_last_login_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tno != null" >
+        #{tno,jdbcType=CHAR},
+      </if>
+      <if test="teaPsw != null" >
+        #{teaPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="teaName != null" >
+        #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="teaSex != null" >
+        #{teaSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teaEmail != null" >
+        #{teaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teaPhone != null" >
+        #{teaPhone,jdbcType=CHAR},
+      </if>
+      <if test="teaLastLoginTime != null" >
+        #{teaLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.TeacherExample" resultType="java.lang.Integer" >
+    select count(*) from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update teacher
+    <set >
+      <if test="record.tno != null" >
+        tno = #{record.tno,jdbcType=CHAR},
+      </if>
+      <if test="record.teaPsw != null" >
+        tea_psw = #{record.teaPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaName != null" >
+        tea_name = #{record.teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaSex != null" >
+        tea_sex = #{record.teaSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaEmail != null" >
+        tea_email = #{record.teaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaPhone != null" >
+        tea_phone = #{record.teaPhone,jdbcType=CHAR},
+      </if>
+      <if test="record.teaLastLoginTime != null" >
+        tea_last_login_time = #{record.teaLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update teacher
+    set tno = #{record.tno,jdbcType=CHAR},
+      tea_psw = #{record.teaPsw,jdbcType=VARCHAR},
+      tea_name = #{record.teaName,jdbcType=VARCHAR},
+      tea_sex = #{record.teaSex,jdbcType=VARCHAR},
+      tea_email = #{record.teaEmail,jdbcType=VARCHAR},
+      tea_phone = #{record.teaPhone,jdbcType=CHAR},
+      tea_last_login_time = #{record.teaLastLoginTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.Teacher" >
+    update teacher
+    <set >
+      <if test="teaPsw != null" >
+        tea_psw = #{teaPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="teaName != null" >
+        tea_name = #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="teaSex != null" >
+        tea_sex = #{teaSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teaEmail != null" >
+        tea_email = #{teaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teaPhone != null" >
+        tea_phone = #{teaPhone,jdbcType=CHAR},
+      </if>
+      <if test="teaLastLoginTime != null" >
+        tea_last_login_time = #{teaLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tno = #{tno,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.Teacher" >
+    update teacher
+    set tea_psw = #{teaPsw,jdbcType=VARCHAR},
+      tea_name = #{teaName,jdbcType=VARCHAR},
+      tea_sex = #{teaSex,jdbcType=VARCHAR},
+      tea_email = #{teaEmail,jdbcType=VARCHAR},
+      tea_phone = #{teaPhone,jdbcType=CHAR},
+      tea_last_login_time = #{teaLastLoginTime,jdbcType=TIMESTAMP}
+    where tno = #{tno,jdbcType=CHAR}
+  </update>
+</mapper>

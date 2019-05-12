@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.PaperQueMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.PaperQue" >
+    <id column="que_id" property="queId" jdbcType="INTEGER" />
+    <result column="que_type" property="queType" jdbcType="INTEGER" />
+    <result column="single_id" property="singleId" jdbcType="INTEGER" />
+    <result column="multiple_id" property="multipleId" jdbcType="INTEGER" />
+    <result column="judge_id" property="judgeId" jdbcType="INTEGER" />
+    <result column="fill_id" property="fillId" jdbcType="INTEGER" />
+    <result column="paper_id" property="paperId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    que_id, que_type, single_id, multiple_id, judge_id, fill_id, paper_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.PaperQueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper_que
+    where que_id = #{queId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from paper_que
+    where que_id = #{queId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.PaperQueExample" >
+    delete from paper_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.PaperQue" >
+    insert into paper_que (que_id, que_type, single_id, 
+      multiple_id, judge_id, fill_id, 
+      paper_id)
+    values (#{queId,jdbcType=INTEGER}, #{queType,jdbcType=INTEGER}, #{singleId,jdbcType=INTEGER}, 
+      #{multipleId,jdbcType=INTEGER}, #{judgeId,jdbcType=INTEGER}, #{fillId,jdbcType=INTEGER}, 
+      #{paperId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.PaperQue" >
+    insert into paper_que
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="queId != null" >
+        que_id,
+      </if>
+      <if test="queType != null" >
+        que_type,
+      </if>
+      <if test="singleId != null" >
+        single_id,
+      </if>
+      <if test="multipleId != null" >
+        multiple_id,
+      </if>
+      <if test="judgeId != null" >
+        judge_id,
+      </if>
+      <if test="fillId != null" >
+        fill_id,
+      </if>
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="queId != null" >
+        #{queId,jdbcType=INTEGER},
+      </if>
+      <if test="queType != null" >
+        #{queType,jdbcType=INTEGER},
+      </if>
+      <if test="singleId != null" >
+        #{singleId,jdbcType=INTEGER},
+      </if>
+      <if test="multipleId != null" >
+        #{multipleId,jdbcType=INTEGER},
+      </if>
+      <if test="judgeId != null" >
+        #{judgeId,jdbcType=INTEGER},
+      </if>
+      <if test="fillId != null" >
+        #{fillId,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.PaperQueExample" resultType="java.lang.Integer" >
+    select count(*) from paper_que
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paper_que
+    <set >
+      <if test="record.queId != null" >
+        que_id = #{record.queId,jdbcType=INTEGER},
+      </if>
+      <if test="record.queType != null" >
+        que_type = #{record.queType,jdbcType=INTEGER},
+      </if>
+      <if test="record.singleId != null" >
+        single_id = #{record.singleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.multipleId != null" >
+        multiple_id = #{record.multipleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.judgeId != null" >
+        judge_id = #{record.judgeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fillId != null" >
+        fill_id = #{record.fillId,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperId != null" >
+        paper_id = #{record.paperId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paper_que
+    set que_id = #{record.queId,jdbcType=INTEGER},
+      que_type = #{record.queType,jdbcType=INTEGER},
+      single_id = #{record.singleId,jdbcType=INTEGER},
+      multiple_id = #{record.multipleId,jdbcType=INTEGER},
+      judge_id = #{record.judgeId,jdbcType=INTEGER},
+      fill_id = #{record.fillId,jdbcType=INTEGER},
+      paper_id = #{record.paperId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.PaperQue" >
+    update paper_que
+    <set >
+      <if test="queType != null" >
+        que_type = #{queType,jdbcType=INTEGER},
+      </if>
+      <if test="singleId != null" >
+        single_id = #{singleId,jdbcType=INTEGER},
+      </if>
+      <if test="multipleId != null" >
+        multiple_id = #{multipleId,jdbcType=INTEGER},
+      </if>
+      <if test="judgeId != null" >
+        judge_id = #{judgeId,jdbcType=INTEGER},
+      </if>
+      <if test="fillId != null" >
+        fill_id = #{fillId,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        paper_id = #{paperId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where que_id = #{queId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.PaperQue" >
+    update paper_que
+    set que_type = #{queType,jdbcType=INTEGER},
+      single_id = #{singleId,jdbcType=INTEGER},
+      multiple_id = #{multipleId,jdbcType=INTEGER},
+      judge_id = #{judgeId,jdbcType=INTEGER},
+      fill_id = #{fillId,jdbcType=INTEGER},
+      paper_id = #{paperId,jdbcType=INTEGER}
+    where que_id = #{queId,jdbcType=INTEGER}
+  </update>
+</mapper>

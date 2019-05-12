@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.TeacherNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.TeacherNotice" >
+    <id column="notice_id" property="noticeId" jdbcType="INTEGER" />
+    <result column="notice_content" property="noticeContent" jdbcType="VARCHAR" />
+    <result column="notice_create_time" property="noticeCreateTime" jdbcType="TIMESTAMP" />
+    <result column="tea_name" property="teaName" jdbcType="VARCHAR" />
+    <result column="tno" property="tno" jdbcType="CHAR" />
+    <result column="sno" property="sno" jdbcType="CHAR" />
+    <result column="is_see" property="isSee" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    notice_id, notice_content, notice_create_time, tea_name, tno, sno, is_see
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.TeacherNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teacher_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher_notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from teacher_notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.TeacherNoticeExample" >
+    delete from teacher_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.TeacherNotice" >
+    insert into teacher_notice (notice_id, notice_content, notice_create_time, 
+      tea_name, tno, sno, is_see
+      )
+    values (#{noticeId,jdbcType=INTEGER}, #{noticeContent,jdbcType=VARCHAR}, #{noticeCreateTime,jdbcType=TIMESTAMP}, 
+      #{teaName,jdbcType=VARCHAR}, #{tno,jdbcType=CHAR}, #{sno,jdbcType=CHAR}, #{isSee,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.TeacherNotice" >
+    insert into teacher_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        notice_id,
+      </if>
+      <if test="noticeContent != null" >
+        notice_content,
+      </if>
+      <if test="noticeCreateTime != null" >
+        notice_create_time,
+      </if>
+      <if test="teaName != null" >
+        tea_name,
+      </if>
+      <if test="tno != null" >
+        tno,
+      </if>
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="isSee != null" >
+        is_see,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeContent != null" >
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreateTime != null" >
+        #{noticeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teaName != null" >
+        #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="tno != null" >
+        #{tno,jdbcType=CHAR},
+      </if>
+      <if test="sno != null" >
+        #{sno,jdbcType=CHAR},
+      </if>
+      <if test="isSee != null" >
+        #{isSee,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.TeacherNoticeExample" resultType="java.lang.Integer" >
+    select count(*) from teacher_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update teacher_notice
+    <set >
+      <if test="record.noticeId != null" >
+        notice_id = #{record.noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeContent != null" >
+        notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCreateTime != null" >
+        notice_create_time = #{record.noticeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teaName != null" >
+        tea_name = #{record.teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tno != null" >
+        tno = #{record.tno,jdbcType=CHAR},
+      </if>
+      <if test="record.sno != null" >
+        sno = #{record.sno,jdbcType=CHAR},
+      </if>
+      <if test="record.isSee != null" >
+        is_see = #{record.isSee,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update teacher_notice
+    set notice_id = #{record.noticeId,jdbcType=INTEGER},
+      notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      notice_create_time = #{record.noticeCreateTime,jdbcType=TIMESTAMP},
+      tea_name = #{record.teaName,jdbcType=VARCHAR},
+      tno = #{record.tno,jdbcType=CHAR},
+      sno = #{record.sno,jdbcType=CHAR},
+      is_see = #{record.isSee,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.TeacherNotice" >
+    update teacher_notice
+    <set >
+      <if test="noticeContent != null" >
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreateTime != null" >
+        notice_create_time = #{noticeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teaName != null" >
+        tea_name = #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="tno != null" >
+        tno = #{tno,jdbcType=CHAR},
+      </if>
+      <if test="sno != null" >
+        sno = #{sno,jdbcType=CHAR},
+      </if>
+      <if test="isSee != null" >
+        is_see = #{isSee,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.TeacherNotice" >
+    update teacher_notice
+    set notice_content = #{noticeContent,jdbcType=VARCHAR},
+      notice_create_time = #{noticeCreateTime,jdbcType=TIMESTAMP},
+      tea_name = #{teaName,jdbcType=VARCHAR},
+      tno = #{tno,jdbcType=CHAR},
+      sno = #{sno,jdbcType=CHAR},
+      is_see = #{isSee,jdbcType=VARCHAR}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+</mapper>

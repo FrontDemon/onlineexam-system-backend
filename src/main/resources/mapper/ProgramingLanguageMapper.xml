@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.ProgramingLanguageMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.ProgramingLanguage" >
+    <id column="lang_id" property="langId" jdbcType="INTEGER" />
+    <result column="lang_name" property="langName" jdbcType="VARCHAR" />
+    <result column="lang_desc" property="langDesc" jdbcType="VARCHAR" />
+    <result column="lang_img_src" property="langImgSrc" jdbcType="VARCHAR" />
+    <result column="lang_create_time" property="langCreateTime" jdbcType="TIMESTAMP" />
+    <result column="lang_created_by" property="langCreatedBy" jdbcType="VARCHAR" />
+    <result column="lang_change_time" property="langChangeTime" jdbcType="TIMESTAMP" />
+    <result column="lang_last_changer" property="langLastChanger" jdbcType="VARCHAR" />
+    <result column="is_recommend" property="isRecommend" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    lang_id, lang_name, lang_desc, lang_img_src, lang_create_time, lang_created_by, lang_change_time, 
+    lang_last_changer, is_recommend
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.ProgramingLanguageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from programing_language
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from programing_language
+    where lang_id = #{langId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from programing_language
+    where lang_id = #{langId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.ProgramingLanguageExample" >
+    delete from programing_language
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.ProgramingLanguage" >
+    insert into programing_language (lang_id, lang_name, lang_desc, 
+      lang_img_src, lang_create_time, lang_created_by, 
+      lang_change_time, lang_last_changer, is_recommend
+      )
+    values (#{langId,jdbcType=INTEGER}, #{langName,jdbcType=VARCHAR}, #{langDesc,jdbcType=VARCHAR}, 
+      #{langImgSrc,jdbcType=VARCHAR}, #{langCreateTime,jdbcType=TIMESTAMP}, #{langCreatedBy,jdbcType=VARCHAR}, 
+      #{langChangeTime,jdbcType=TIMESTAMP}, #{langLastChanger,jdbcType=VARCHAR}, #{isRecommend,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.ProgramingLanguage" >
+    insert into programing_language
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="langId != null" >
+        lang_id,
+      </if>
+      <if test="langName != null" >
+        lang_name,
+      </if>
+      <if test="langDesc != null" >
+        lang_desc,
+      </if>
+      <if test="langImgSrc != null" >
+        lang_img_src,
+      </if>
+      <if test="langCreateTime != null" >
+        lang_create_time,
+      </if>
+      <if test="langCreatedBy != null" >
+        lang_created_by,
+      </if>
+      <if test="langChangeTime != null" >
+        lang_change_time,
+      </if>
+      <if test="langLastChanger != null" >
+        lang_last_changer,
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="langId != null" >
+        #{langId,jdbcType=INTEGER},
+      </if>
+      <if test="langName != null" >
+        #{langName,jdbcType=VARCHAR},
+      </if>
+      <if test="langDesc != null" >
+        #{langDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="langImgSrc != null" >
+        #{langImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="langCreateTime != null" >
+        #{langCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="langCreatedBy != null" >
+        #{langCreatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="langChangeTime != null" >
+        #{langChangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="langLastChanger != null" >
+        #{langLastChanger,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecommend != null" >
+        #{isRecommend,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.ProgramingLanguageExample" resultType="java.lang.Integer" >
+    select count(*) from programing_language
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update programing_language
+    <set >
+      <if test="record.langId != null" >
+        lang_id = #{record.langId,jdbcType=INTEGER},
+      </if>
+      <if test="record.langName != null" >
+        lang_name = #{record.langName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.langDesc != null" >
+        lang_desc = #{record.langDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.langImgSrc != null" >
+        lang_img_src = #{record.langImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.langCreateTime != null" >
+        lang_create_time = #{record.langCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.langCreatedBy != null" >
+        lang_created_by = #{record.langCreatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.langChangeTime != null" >
+        lang_change_time = #{record.langChangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.langLastChanger != null" >
+        lang_last_changer = #{record.langLastChanger,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRecommend != null" >
+        is_recommend = #{record.isRecommend,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update programing_language
+    set lang_id = #{record.langId,jdbcType=INTEGER},
+      lang_name = #{record.langName,jdbcType=VARCHAR},
+      lang_desc = #{record.langDesc,jdbcType=VARCHAR},
+      lang_img_src = #{record.langImgSrc,jdbcType=VARCHAR},
+      lang_create_time = #{record.langCreateTime,jdbcType=TIMESTAMP},
+      lang_created_by = #{record.langCreatedBy,jdbcType=VARCHAR},
+      lang_change_time = #{record.langChangeTime,jdbcType=TIMESTAMP},
+      lang_last_changer = #{record.langLastChanger,jdbcType=VARCHAR},
+      is_recommend = #{record.isRecommend,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.ProgramingLanguage" >
+    update programing_language
+    <set >
+      <if test="langName != null" >
+        lang_name = #{langName,jdbcType=VARCHAR},
+      </if>
+      <if test="langDesc != null" >
+        lang_desc = #{langDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="langImgSrc != null" >
+        lang_img_src = #{langImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="langCreateTime != null" >
+        lang_create_time = #{langCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="langCreatedBy != null" >
+        lang_created_by = #{langCreatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="langChangeTime != null" >
+        lang_change_time = #{langChangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="langLastChanger != null" >
+        lang_last_changer = #{langLastChanger,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend = #{isRecommend,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where lang_id = #{langId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.ProgramingLanguage" >
+    update programing_language
+    set lang_name = #{langName,jdbcType=VARCHAR},
+      lang_desc = #{langDesc,jdbcType=VARCHAR},
+      lang_img_src = #{langImgSrc,jdbcType=VARCHAR},
+      lang_create_time = #{langCreateTime,jdbcType=TIMESTAMP},
+      lang_created_by = #{langCreatedBy,jdbcType=VARCHAR},
+      lang_change_time = #{langChangeTime,jdbcType=TIMESTAMP},
+      lang_last_changer = #{langLastChanger,jdbcType=VARCHAR},
+      is_recommend = #{isRecommend,jdbcType=VARCHAR}
+    where lang_id = #{langId,jdbcType=INTEGER}
+  </update>
+</mapper>

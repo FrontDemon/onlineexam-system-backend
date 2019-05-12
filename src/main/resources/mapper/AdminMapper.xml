@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.Admin" >
+    <id column="ano" property="ano" jdbcType="CHAR" />
+    <result column="adm_psw" property="admPsw" jdbcType="VARCHAR" />
+    <result column="adm_name" property="admName" jdbcType="VARCHAR" />
+    <result column="adm_sex" property="admSex" jdbcType="VARCHAR" />
+    <result column="adm_email" property="admEmail" jdbcType="VARCHAR" />
+    <result column="adm_phone" property="admPhone" jdbcType="CHAR" />
+    <result column="adm_last_login_time" property="admLastLoginTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ano, adm_psw, adm_name, adm_sex, adm_email, adm_phone, adm_last_login_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.AdminExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where ano = #{ano,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from admin
+    where ano = #{ano,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.AdminExample" >
+    delete from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.Admin" >
+    insert into admin (ano, adm_psw, adm_name, 
+      adm_sex, adm_email, adm_phone, 
+      adm_last_login_time)
+    values (#{ano,jdbcType=CHAR}, #{admPsw,jdbcType=VARCHAR}, #{admName,jdbcType=VARCHAR}, 
+      #{admSex,jdbcType=VARCHAR}, #{admEmail,jdbcType=VARCHAR}, #{admPhone,jdbcType=CHAR}, 
+      #{admLastLoginTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ano != null" >
+        ano,
+      </if>
+      <if test="admPsw != null" >
+        adm_psw,
+      </if>
+      <if test="admName != null" >
+        adm_name,
+      </if>
+      <if test="admSex != null" >
+        adm_sex,
+      </if>
+      <if test="admEmail != null" >
+        adm_email,
+      </if>
+      <if test="admPhone != null" >
+        adm_phone,
+      </if>
+      <if test="admLastLoginTime != null" >
+        adm_last_login_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ano != null" >
+        #{ano,jdbcType=CHAR},
+      </if>
+      <if test="admPsw != null" >
+        #{admPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="admName != null" >
+        #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admSex != null" >
+        #{admSex,jdbcType=VARCHAR},
+      </if>
+      <if test="admEmail != null" >
+        #{admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="admPhone != null" >
+        #{admPhone,jdbcType=CHAR},
+      </if>
+      <if test="admLastLoginTime != null" >
+        #{admLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.AdminExample" resultType="java.lang.Integer" >
+    select count(*) from admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin
+    <set >
+      <if test="record.ano != null" >
+        ano = #{record.ano,jdbcType=CHAR},
+      </if>
+      <if test="record.admPsw != null" >
+        adm_psw = #{record.admPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admName != null" >
+        adm_name = #{record.admName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admSex != null" >
+        adm_sex = #{record.admSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admEmail != null" >
+        adm_email = #{record.admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admPhone != null" >
+        adm_phone = #{record.admPhone,jdbcType=CHAR},
+      </if>
+      <if test="record.admLastLoginTime != null" >
+        adm_last_login_time = #{record.admLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin
+    set ano = #{record.ano,jdbcType=CHAR},
+      adm_psw = #{record.admPsw,jdbcType=VARCHAR},
+      adm_name = #{record.admName,jdbcType=VARCHAR},
+      adm_sex = #{record.admSex,jdbcType=VARCHAR},
+      adm_email = #{record.admEmail,jdbcType=VARCHAR},
+      adm_phone = #{record.admPhone,jdbcType=CHAR},
+      adm_last_login_time = #{record.admLastLoginTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.Admin" >
+    update admin
+    <set >
+      <if test="admPsw != null" >
+        adm_psw = #{admPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="admName != null" >
+        adm_name = #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admSex != null" >
+        adm_sex = #{admSex,jdbcType=VARCHAR},
+      </if>
+      <if test="admEmail != null" >
+        adm_email = #{admEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="admPhone != null" >
+        adm_phone = #{admPhone,jdbcType=CHAR},
+      </if>
+      <if test="admLastLoginTime != null" >
+        adm_last_login_time = #{admLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ano = #{ano,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.Admin" >
+    update admin
+    set adm_psw = #{admPsw,jdbcType=VARCHAR},
+      adm_name = #{admName,jdbcType=VARCHAR},
+      adm_sex = #{admSex,jdbcType=VARCHAR},
+      adm_email = #{admEmail,jdbcType=VARCHAR},
+      adm_phone = #{admPhone,jdbcType=CHAR},
+      adm_last_login_time = #{admLastLoginTime,jdbcType=TIMESTAMP}
+    where ano = #{ano,jdbcType=CHAR}
+  </update>
+</mapper>

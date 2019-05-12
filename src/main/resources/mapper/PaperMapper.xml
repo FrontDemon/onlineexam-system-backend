@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.PaperMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.Paper" >
+    <id column="paper_id" property="paperId" jdbcType="INTEGER" />
+    <result column="paper_name" property="paperName" jdbcType="VARCHAR" />
+    <result column="paper_create_time" property="paperCreateTime" jdbcType="TIMESTAMP" />
+    <result column="paper_duration" property="paperDuration" jdbcType="INTEGER" />
+    <result column="paper_difficulty" property="paperDifficulty" jdbcType="INTEGER" />
+    <result column="paper_attention" property="paperAttention" jdbcType="VARCHAR" />
+    <result column="paper_type" property="paperType" jdbcType="INTEGER" />
+    <result column="single_score" property="singleScore" jdbcType="INTEGER" />
+    <result column="multiple_score" property="multipleScore" jdbcType="INTEGER" />
+    <result column="judge_score" property="judgeScore" jdbcType="INTEGER" />
+    <result column="fill_score" property="fillScore" jdbcType="INTEGER" />
+    <result column="lang_id" property="langId" jdbcType="INTEGER" />
+    <result column="participate_num" property="participateNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    paper_id, paper_name, paper_create_time, paper_duration, paper_difficulty, paper_attention, 
+    paper_type, single_score, multiple_score, judge_score, fill_score, lang_id, participate_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.PaperExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectMaxPaperId" resultType="java.lang.Integer">
+    SELECT MAX(paper_id) FROM paper
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from paper
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.PaperExample" >
+    delete from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.Paper" >
+    insert into paper (paper_id, paper_name, paper_create_time, 
+      paper_duration, paper_difficulty, paper_attention, 
+      paper_type, single_score, multiple_score, 
+      judge_score, fill_score, lang_id, 
+      participate_num)
+    values (#{paperId,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, #{paperCreateTime,jdbcType=TIMESTAMP}, 
+      #{paperDuration,jdbcType=INTEGER}, #{paperDifficulty,jdbcType=INTEGER}, #{paperAttention,jdbcType=VARCHAR}, 
+      #{paperType,jdbcType=INTEGER}, #{singleScore,jdbcType=INTEGER}, #{multipleScore,jdbcType=INTEGER}, 
+      #{judgeScore,jdbcType=INTEGER}, #{fillScore,jdbcType=INTEGER}, #{langId,jdbcType=INTEGER}, 
+      #{participateNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.Paper" >
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="paperName != null" >
+        paper_name,
+      </if>
+      <if test="paperCreateTime != null" >
+        paper_create_time,
+      </if>
+      <if test="paperDuration != null" >
+        paper_duration,
+      </if>
+      <if test="paperDifficulty != null" >
+        paper_difficulty,
+      </if>
+      <if test="paperAttention != null" >
+        paper_attention,
+      </if>
+      <if test="paperType != null" >
+        paper_type,
+      </if>
+      <if test="singleScore != null" >
+        single_score,
+      </if>
+      <if test="multipleScore != null" >
+        multiple_score,
+      </if>
+      <if test="judgeScore != null" >
+        judge_score,
+      </if>
+      <if test="fillScore != null" >
+        fill_score,
+      </if>
+      <if test="langId != null" >
+        lang_id,
+      </if>
+      <if test="participateNum != null" >
+        participate_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="paperName != null" >
+        #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperCreateTime != null" >
+        #{paperCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperDuration != null" >
+        #{paperDuration,jdbcType=INTEGER},
+      </if>
+      <if test="paperDifficulty != null" >
+        #{paperDifficulty,jdbcType=INTEGER},
+      </if>
+      <if test="paperAttention != null" >
+        #{paperAttention,jdbcType=VARCHAR},
+      </if>
+      <if test="paperType != null" >
+        #{paperType,jdbcType=INTEGER},
+      </if>
+      <if test="singleScore != null" >
+        #{singleScore,jdbcType=INTEGER},
+      </if>
+      <if test="multipleScore != null" >
+        #{multipleScore,jdbcType=INTEGER},
+      </if>
+      <if test="judgeScore != null" >
+        #{judgeScore,jdbcType=INTEGER},
+      </if>
+      <if test="fillScore != null" >
+        #{fillScore,jdbcType=INTEGER},
+      </if>
+      <if test="langId != null" >
+        #{langId,jdbcType=INTEGER},
+      </if>
+      <if test="participateNum != null" >
+        #{participateNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.PaperExample" resultType="java.lang.Integer" >
+    select count(*) from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paper
+    <set >
+      <if test="record.paperId != null" >
+        paper_id = #{record.paperId,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperName != null" >
+        paper_name = #{record.paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paperCreateTime != null" >
+        paper_create_time = #{record.paperCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paperDuration != null" >
+        paper_duration = #{record.paperDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperDifficulty != null" >
+        paper_difficulty = #{record.paperDifficulty,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperAttention != null" >
+        paper_attention = #{record.paperAttention,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paperType != null" >
+        paper_type = #{record.paperType,jdbcType=INTEGER},
+      </if>
+      <if test="record.singleScore != null" >
+        single_score = #{record.singleScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.multipleScore != null" >
+        multiple_score = #{record.multipleScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.judgeScore != null" >
+        judge_score = #{record.judgeScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.fillScore != null" >
+        fill_score = #{record.fillScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.langId != null" >
+        lang_id = #{record.langId,jdbcType=INTEGER},
+      </if>
+      <if test="record.participateNum != null" >
+        participate_num = #{record.participateNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paper
+    set paper_id = #{record.paperId,jdbcType=INTEGER},
+      paper_name = #{record.paperName,jdbcType=VARCHAR},
+      paper_create_time = #{record.paperCreateTime,jdbcType=TIMESTAMP},
+      paper_duration = #{record.paperDuration,jdbcType=INTEGER},
+      paper_difficulty = #{record.paperDifficulty,jdbcType=INTEGER},
+      paper_attention = #{record.paperAttention,jdbcType=VARCHAR},
+      paper_type = #{record.paperType,jdbcType=INTEGER},
+      single_score = #{record.singleScore,jdbcType=INTEGER},
+      multiple_score = #{record.multipleScore,jdbcType=INTEGER},
+      judge_score = #{record.judgeScore,jdbcType=INTEGER},
+      fill_score = #{record.fillScore,jdbcType=INTEGER},
+      lang_id = #{record.langId,jdbcType=INTEGER},
+      participate_num = #{record.participateNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.Paper" >
+    update paper
+    <set >
+      <if test="paperName != null" >
+        paper_name = #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperCreateTime != null" >
+        paper_create_time = #{paperCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperDuration != null" >
+        paper_duration = #{paperDuration,jdbcType=INTEGER},
+      </if>
+      <if test="paperDifficulty != null" >
+        paper_difficulty = #{paperDifficulty,jdbcType=INTEGER},
+      </if>
+      <if test="paperAttention != null" >
+        paper_attention = #{paperAttention,jdbcType=VARCHAR},
+      </if>
+      <if test="paperType != null" >
+        paper_type = #{paperType,jdbcType=INTEGER},
+      </if>
+      <if test="singleScore != null" >
+        single_score = #{singleScore,jdbcType=INTEGER},
+      </if>
+      <if test="multipleScore != null" >
+        multiple_score = #{multipleScore,jdbcType=INTEGER},
+      </if>
+      <if test="judgeScore != null" >
+        judge_score = #{judgeScore,jdbcType=INTEGER},
+      </if>
+      <if test="fillScore != null" >
+        fill_score = #{fillScore,jdbcType=INTEGER},
+      </if>
+      <if test="langId != null" >
+        lang_id = #{langId,jdbcType=INTEGER},
+      </if>
+      <if test="participateNum != null" >
+        participate_num = #{participateNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.Paper" >
+    update paper
+    set paper_name = #{paperName,jdbcType=VARCHAR},
+      paper_create_time = #{paperCreateTime,jdbcType=TIMESTAMP},
+      paper_duration = #{paperDuration,jdbcType=INTEGER},
+      paper_difficulty = #{paperDifficulty,jdbcType=INTEGER},
+      paper_attention = #{paperAttention,jdbcType=VARCHAR},
+      paper_type = #{paperType,jdbcType=INTEGER},
+      single_score = #{singleScore,jdbcType=INTEGER},
+      multiple_score = #{multipleScore,jdbcType=INTEGER},
+      judge_score = #{judgeScore,jdbcType=INTEGER},
+      fill_score = #{fillScore,jdbcType=INTEGER},
+      lang_id = #{langId,jdbcType=INTEGER},
+      participate_num = #{participateNum,jdbcType=INTEGER}
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </update>
+</mapper>

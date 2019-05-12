@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.StudentPaperAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.StudentPaperAnswer" >
+    <id column="answer_id" property="answerId" jdbcType="INTEGER" />
+    <result column="stu_answer" property="stuAnswer" jdbcType="VARCHAR" />
+    <result column="isCorrect" property="iscorrect" jdbcType="VARCHAR" />
+    <result column="que_id" property="queId" jdbcType="INTEGER" />
+    <result column="paper_id" property="paperId" jdbcType="INTEGER" />
+    <result column="sno" property="sno" jdbcType="CHAR" />
+    <result column="isCollect" property="iscollect" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    answer_id, stu_answer, isCorrect, que_id, paper_id, sno, isCollect
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.StudentPaperAnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student_paper_answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student_paper_answer
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectSingleCorrectCount" resultType="java.lang.Integer" parameterType="com.mwt.oes.domain.StudentPaperAnswer">
+    SELECT
+    COUNT(*)
+    FROM paper_que p,student_paper_answer s
+    WHERE p.que_type = 1 AND p.que_id = s.que_id AND s.sno = #{sno,jdbcType=CHAR}
+    AND s.paper_id = #{paperId,jdbcType=INTEGER} AND s.isCorrect = 1
+  </select>
+
+  <select id="selectMultipleCorrectCount" resultType="java.lang.Integer" parameterType="com.mwt.oes.domain.StudentPaperAnswer">
+    SELECT
+    COUNT(*)
+    FROM paper_que p,student_paper_answer s
+    WHERE p.que_type = 2 AND p.que_id = s.que_id AND s.sno = #{sno,jdbcType=CHAR}
+    AND s.paper_id = #{paperId,jdbcType=INTEGER} AND s.isCorrect = 1
+  </select>
+
+  <select id="selectJudgeCorrectCount" resultType="java.lang.Integer" parameterType="com.mwt.oes.domain.StudentPaperAnswer">
+    SELECT
+    COUNT(*)
+    FROM paper_que p,student_paper_answer s
+    WHERE p.que_type = 3 AND p.que_id = s.que_id AND s.sno = #{sno,jdbcType=CHAR}
+    AND s.paper_id = #{paperId,jdbcType=INTEGER} AND s.isCorrect = 1
+  </select>
+
+  <select id="selectFillCorrectCount" resultType="java.lang.Integer" parameterType="com.mwt.oes.domain.StudentPaperAnswer">
+    SELECT
+    COUNT(*)
+    FROM paper_que p,student_paper_answer s
+    WHERE p.que_type = 4 AND p.que_id = s.que_id AND s.sno = #{sno,jdbcType=CHAR}
+    AND s.paper_id = #{paperId,jdbcType=INTEGER} AND s.isCorrect = 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student_paper_answer
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.StudentPaperAnswerExample" >
+    delete from student_paper_answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.StudentPaperAnswer" >
+    insert into student_paper_answer (answer_id, stu_answer, isCorrect, 
+      que_id, paper_id, sno, isCollect
+      )
+    values (#{answerId,jdbcType=INTEGER}, #{stuAnswer,jdbcType=VARCHAR}, #{iscorrect,jdbcType=VARCHAR}, 
+      #{queId,jdbcType=INTEGER}, #{paperId,jdbcType=INTEGER}, #{sno,jdbcType=CHAR}, #{iscollect,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.StudentPaperAnswer" >
+    insert into student_paper_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        answer_id,
+      </if>
+      <if test="stuAnswer != null" >
+        stu_answer,
+      </if>
+      <if test="iscorrect != null" >
+        isCorrect,
+      </if>
+      <if test="queId != null" >
+        que_id,
+      </if>
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="iscollect != null" >
+        isCollect,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        #{answerId,jdbcType=INTEGER},
+      </if>
+      <if test="stuAnswer != null" >
+        #{stuAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="iscorrect != null" >
+        #{iscorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="queId != null" >
+        #{queId,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="sno != null" >
+        #{sno,jdbcType=CHAR},
+      </if>
+      <if test="iscollect != null" >
+        #{iscollect,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.StudentPaperAnswerExample" resultType="java.lang.Integer" >
+    select count(*) from student_paper_answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update student_paper_answer
+    <set >
+      <if test="record.answerId != null" >
+        answer_id = #{record.answerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuAnswer != null" >
+        stu_answer = #{record.stuAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iscorrect != null" >
+        isCorrect = #{record.iscorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="record.queId != null" >
+        que_id = #{record.queId,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperId != null" >
+        paper_id = #{record.paperId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sno != null" >
+        sno = #{record.sno,jdbcType=CHAR},
+      </if>
+      <if test="record.iscollect != null" >
+        isCollect = #{record.iscollect,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update student_paper_answer
+    set answer_id = #{record.answerId,jdbcType=INTEGER},
+      stu_answer = #{record.stuAnswer,jdbcType=VARCHAR},
+      isCorrect = #{record.iscorrect,jdbcType=VARCHAR},
+      que_id = #{record.queId,jdbcType=INTEGER},
+      paper_id = #{record.paperId,jdbcType=INTEGER},
+      sno = #{record.sno,jdbcType=CHAR},
+      isCollect = #{record.iscollect,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.StudentPaperAnswer" >
+    update student_paper_answer
+    <set >
+      <if test="stuAnswer != null" >
+        stu_answer = #{stuAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="iscorrect != null" >
+        isCorrect = #{iscorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="queId != null" >
+        que_id = #{queId,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        paper_id = #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="sno != null" >
+        sno = #{sno,jdbcType=CHAR},
+      </if>
+      <if test="iscollect != null" >
+        isCollect = #{iscollect,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.StudentPaperAnswer" >
+    update student_paper_answer
+    set stu_answer = #{stuAnswer,jdbcType=VARCHAR},
+      isCorrect = #{iscorrect,jdbcType=VARCHAR},
+      que_id = #{queId,jdbcType=INTEGER},
+      paper_id = #{paperId,jdbcType=INTEGER},
+      sno = #{sno,jdbcType=CHAR},
+      isCollect = #{iscollect,jdbcType=VARCHAR}
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
+</mapper>

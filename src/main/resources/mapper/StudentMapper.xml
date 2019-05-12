@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mwt.oes.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.mwt.oes.domain.Student" >
+    <id column="sno" property="sno" jdbcType="CHAR" />
+    <result column="stu_psw" property="stuPsw" jdbcType="VARCHAR" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+    <result column="stu_img_src" property="stuImgSrc" jdbcType="VARCHAR" />
+    <result column="stu_sex" property="stuSex" jdbcType="VARCHAR" />
+    <result column="stu_email" property="stuEmail" jdbcType="VARCHAR" />
+    <result column="stu_phone" property="stuPhone" jdbcType="CHAR" />
+    <result column="stu_create_time" property="stuCreateTime" jdbcType="TIMESTAMP" />
+    <result column="stu_last_login_time" property="stuLastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="stu_status" property="stuStatus" jdbcType="CHAR" />
+    <result column="stu_security_code" property="stuSecurityCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sno, stu_psw, stu_name, stu_img_src, stu_sex, stu_email, stu_phone, stu_create_time, 
+    stu_last_login_time, stu_status, stu_security_code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mwt.oes.domain.StudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where sno = #{sno,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from student
+    where sno = #{sno,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mwt.oes.domain.StudentExample" >
+    delete from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mwt.oes.domain.Student" >
+    insert into student (sno, stu_psw, stu_name, 
+      stu_img_src, stu_sex, stu_email, 
+      stu_phone, stu_create_time, stu_last_login_time, 
+      stu_status, stu_security_code)
+    values (#{sno,jdbcType=CHAR}, #{stuPsw,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, 
+      #{stuImgSrc,jdbcType=VARCHAR}, #{stuSex,jdbcType=VARCHAR}, #{stuEmail,jdbcType=VARCHAR}, 
+      #{stuPhone,jdbcType=CHAR}, #{stuCreateTime,jdbcType=TIMESTAMP}, #{stuLastLoginTime,jdbcType=TIMESTAMP}, 
+      #{stuStatus,jdbcType=CHAR}, #{stuSecurityCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mwt.oes.domain.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="stuPsw != null" >
+        stu_psw,
+      </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="stuImgSrc != null" >
+        stu_img_src,
+      </if>
+      <if test="stuSex != null" >
+        stu_sex,
+      </if>
+      <if test="stuEmail != null" >
+        stu_email,
+      </if>
+      <if test="stuPhone != null" >
+        stu_phone,
+      </if>
+      <if test="stuCreateTime != null" >
+        stu_create_time,
+      </if>
+      <if test="stuLastLoginTime != null" >
+        stu_last_login_time,
+      </if>
+      <if test="stuStatus != null" >
+        stu_status,
+      </if>
+      <if test="stuSecurityCode != null" >
+        stu_security_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        #{sno,jdbcType=CHAR},
+      </if>
+      <if test="stuPsw != null" >
+        #{stuPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuImgSrc != null" >
+        #{stuImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null" >
+        #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuEmail != null" >
+        #{stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="stuPhone != null" >
+        #{stuPhone,jdbcType=CHAR},
+      </if>
+      <if test="stuCreateTime != null" >
+        #{stuCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuLastLoginTime != null" >
+        #{stuLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuStatus != null" >
+        #{stuStatus,jdbcType=CHAR},
+      </if>
+      <if test="stuSecurityCode != null" >
+        #{stuSecurityCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mwt.oes.domain.StudentExample" resultType="java.lang.Integer" >
+    select count(*) from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update student
+    <set >
+      <if test="record.sno != null" >
+        sno = #{record.sno,jdbcType=CHAR},
+      </if>
+      <if test="record.stuPsw != null" >
+        stu_psw = #{record.stuPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuName != null" >
+        stu_name = #{record.stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuImgSrc != null" >
+        stu_img_src = #{record.stuImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuSex != null" >
+        stu_sex = #{record.stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuEmail != null" >
+        stu_email = #{record.stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuPhone != null" >
+        stu_phone = #{record.stuPhone,jdbcType=CHAR},
+      </if>
+      <if test="record.stuCreateTime != null" >
+        stu_create_time = #{record.stuCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stuLastLoginTime != null" >
+        stu_last_login_time = #{record.stuLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stuStatus != null" >
+        stu_status = #{record.stuStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.stuSecurityCode != null" >
+        stu_security_code = #{record.stuSecurityCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update student
+    set sno = #{record.sno,jdbcType=CHAR},
+      stu_psw = #{record.stuPsw,jdbcType=VARCHAR},
+      stu_name = #{record.stuName,jdbcType=VARCHAR},
+      stu_img_src = #{record.stuImgSrc,jdbcType=VARCHAR},
+      stu_sex = #{record.stuSex,jdbcType=VARCHAR},
+      stu_email = #{record.stuEmail,jdbcType=VARCHAR},
+      stu_phone = #{record.stuPhone,jdbcType=CHAR},
+      stu_create_time = #{record.stuCreateTime,jdbcType=TIMESTAMP},
+      stu_last_login_time = #{record.stuLastLoginTime,jdbcType=TIMESTAMP},
+      stu_status = #{record.stuStatus,jdbcType=CHAR},
+      stu_security_code = #{record.stuSecurityCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mwt.oes.domain.Student" >
+    update student
+    <set >
+      <if test="stuPsw != null" >
+        stu_psw = #{stuPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuImgSrc != null" >
+        stu_img_src = #{stuImgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null" >
+        stu_sex = #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuEmail != null" >
+        stu_email = #{stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="stuPhone != null" >
+        stu_phone = #{stuPhone,jdbcType=CHAR},
+      </if>
+      <if test="stuCreateTime != null" >
+        stu_create_time = #{stuCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuLastLoginTime != null" >
+        stu_last_login_time = #{stuLastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuStatus != null" >
+        stu_status = #{stuStatus,jdbcType=CHAR},
+      </if>
+      <if test="stuSecurityCode != null" >
+        stu_security_code = #{stuSecurityCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sno = #{sno,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mwt.oes.domain.Student" >
+    update student
+    set stu_psw = #{stuPsw,jdbcType=VARCHAR},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      stu_img_src = #{stuImgSrc,jdbcType=VARCHAR},
+      stu_sex = #{stuSex,jdbcType=VARCHAR},
+      stu_email = #{stuEmail,jdbcType=VARCHAR},
+      stu_phone = #{stuPhone,jdbcType=CHAR},
+      stu_create_time = #{stuCreateTime,jdbcType=TIMESTAMP},
+      stu_last_login_time = #{stuLastLoginTime,jdbcType=TIMESTAMP},
+      stu_status = #{stuStatus,jdbcType=CHAR},
+      stu_security_code = #{stuSecurityCode,jdbcType=VARCHAR}
+    where sno = #{sno,jdbcType=CHAR}
+  </update>
+</mapper>
